@@ -1,0 +1,30 @@
+body{
+    margin: 1rem;
+}
+
+.agregarItem label{
+    margin-right: 10px;
+}
+
+.item-container input {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.item-container p {
+    display: inline;
+}
+
+.item-container button {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+main .eliminar{
+    margin-top: 50px;
+}
+
+main .eliminar button{
+    margin-left: 15px;
+}
