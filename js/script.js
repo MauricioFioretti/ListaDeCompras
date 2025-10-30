@@ -1,4 +1,4 @@
-//Selecciono el header
+//Selecciono el header .item-container
 const header = document.querySelector("header")
 
 //Creo la section titulo
@@ -36,7 +36,6 @@ seccionLista.appendChild(button1)
 const seccionItems = document.createElement("section")
 seccionItems.classList = "items"
 main.appendChild(seccionItems)
-
 
 
 //====================== SECCIÓN DE UTILIDADES (copiar / importar) ======================

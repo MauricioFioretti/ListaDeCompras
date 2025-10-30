@@ -28,3 +28,7 @@ main .eliminar{
 main .eliminar button{
     margin-left: 15px;
 }
+
+main .agregarItem button{
+    margin-left: 15px;
+}
