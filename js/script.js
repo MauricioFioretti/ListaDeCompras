@@ -74,38 +74,6 @@ const buttonImportar = document.createElement("button")
 buttonImportar.innerText = "Agregar a mi lista"
 importarContainer.appendChild(buttonImportar)
 
-
-
-
-// //Agrego la section para eliminar todo
-// const seccionEliminar = document.createElement("section")
-// seccionEliminar.classList = "eliminar"
-// main.appendChild(seccionEliminar)
-
-//Agrego un label y un button
-//const label2 = document.createElement("label")
-//label2.innerText = "Eliminar todos los items: "
-//seccionEliminar.appendChild(label2)
-
-//const button2 = document.createElement("button")
-//button2.innerText = "Eliminar todo"
-//seccionEliminar.appendChild(button2)
-
-// //Agrego un label y un button para copiar la lista
-// const label2 = document.createElement("label")
-// label2.innerText = "Copiar items de esta lista"
-// seccionEliminar.appendChild(label2)
-
-// const button2 = document.createElement("button")
-// button2.innerText = "Copiar items"
-// seccionEliminar.appendChild(button2)
-
-// // Selecciono el botón "Agregar"
-// const presionarAgregar = document.querySelector(".agregarItem button")
-
-// // Selecciono el botón "Eliminar"
-// const presionarEliminar = document.querySelector(".eliminar button")
-
 //=============================Funcion para agregar elementos al Storage y al DOM===========================
 
 // Función para agregar un nuevo elemento al almacenamiento local
@@ -212,14 +180,6 @@ function eliminarElemento(index) {
     // Recargo la lista
     cargarListaDesdeLocalStorage()
 }
-
-/* ===================== YA NO HAY "ELIMINAR TODO" =====================
-//Evento click para eliminar todos los elementos
-presionarEliminar.addEventListener("click", function () {
-    localStorage.clear()
-    seccionItems.innerHTML = ""
-})
-===================================================================== */
 
 // ===================== COPIAR LISTA =====================
 buttonCopiar.addEventListener("click", function () {
