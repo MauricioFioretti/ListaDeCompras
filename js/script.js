@@ -103,7 +103,18 @@ function agregarElementoAlLocalStorage(texto, completado = false) {
 
 // // Función para cargar la lista de elementos desde el almacenamiento local
 // function cargarListaDesdeLocalStorage() {
-//     const listaItems = JSON.parse(localStorage.getItem("listaItems")) || []
+//     let listaItems = JSON.parse(localStorage.getItem("listaItems")) || []
+
+//     // ✅ Ordenar: primero los completados (true) al inicio
+//     listaItems.sort((a, b) => {
+//         if (a.completado === b.completado) {
+//             return a.texto.toLowerCase().localeCompare(b.texto.toLowerCase())
+//         }
+//         return b.completado - a.completado
+//     })
+
+//     // ✅ IMPORTANTE: guardar el orden ya ordenado
+//     localStorage.setItem("listaItems", JSON.stringify(listaItems))
 
 //     // limpio primero
 //     seccionItems.innerHTML = ""
@@ -113,33 +124,28 @@ function agregarElementoAlLocalStorage(texto, completado = false) {
 //         const itemContainer = document.createElement("div")
 //         itemContainer.classList.add("item-container")
 
-//         //Primero creo el tick a la izquierda del item
 //         const tick = document.createElement("input")
 //         tick.type = "checkbox"
 //         tick.checked = item.completado
 
-//         // Guardo el estado del tick en el almacenamiento local
 //         tick.addEventListener("change", function () {
 //             item.completado = tick.checked
 //             localStorage.setItem("listaItems", JSON.stringify(listaItems))
+//             cargarListaDesdeLocalStorage() // 🔄 refrescar orden
 //         })
 
-//         //Luego creo el item a la derecha del tick
 //         const listItem = document.createElement("p")
 //         listItem.innerText = item.texto
 
-//         // Creo el botón de eliminar
 //         const botonEliminarItem = document.createElement("button")
 //         botonEliminarItem.innerText = "Eliminar"
 //         botonEliminarItem.classList.add("eliminar-item")
 //         botonEliminarItem.setAttribute("data-index", index)
 
-//         // Agrego el tick, el item y el boton eliminar de cada item a un contenedor
 //         itemContainer.appendChild(tick)
 //         itemContainer.appendChild(listItem)
 //         itemContainer.appendChild(botonEliminarItem)
 
-//         // Agrego el contenedor a la sección de items
 //         seccionItems.appendChild(itemContainer)
 //     })
 // }
@@ -156,11 +162,13 @@ function cargarListaDesdeLocalStorage() {
         return b.completado - a.completado
     })
 
+    // ✅ IMPORTANTE: guardar el orden ya ordenado
+    localStorage.setItem("listaItems", JSON.stringify(listaItems))
+
     // limpio primero
     seccionItems.innerHTML = ""
 
     listaItems.forEach(function (item, index) {
-        // Crear el contenedor para el tick y el item
         const itemContainer = document.createElement("div")
         itemContainer.classList.add("item-container")
 
@@ -169,9 +177,10 @@ function cargarListaDesdeLocalStorage() {
         tick.checked = item.completado
 
         tick.addEventListener("change", function () {
+            // actualizo ese item en el array
             item.completado = tick.checked
             localStorage.setItem("listaItems", JSON.stringify(listaItems))
-            cargarListaDesdeLocalStorage() // 🔄 refrescar orden
+            cargarListaDesdeLocalStorage() // 🔄 refrescar y reordenar
         })
 
         const listItem = document.createElement("p")
@@ -189,6 +198,7 @@ function cargarListaDesdeLocalStorage() {
         seccionItems.appendChild(itemContainer)
     })
 }
+
 
 
 // Evento de click para eliminar un elemento individual
@@ -217,16 +227,30 @@ button1.addEventListener("click", function () {
     }
 })
 
+// //Función eliminar un solo item
+// function eliminarElemento(index) {
+//     let listaItems = JSON.parse(localStorage.getItem("listaItems")) || []
+//     // Elimino el elemento del arreglo, según su índice
+//     listaItems.splice(index, 1)
+//     localStorage.setItem("listaItems", JSON.stringify(listaItems))
+
+//     // Recargo la lista
+//     cargarListaDesdeLocalStorage()
+// }
+
 //Función eliminar un solo item
 function eliminarElemento(index) {
     let listaItems = JSON.parse(localStorage.getItem("listaItems")) || []
-    // Elimino el elemento del arreglo, según su índice
+
+    // como el storage ya está ORDENADO igual que el DOM,
+    // ahora este index sí coincide ✅
     listaItems.splice(index, 1)
+
     localStorage.setItem("listaItems", JSON.stringify(listaItems))
 
-    // Recargo la lista
     cargarListaDesdeLocalStorage()
 }
+
 
 // ===================== COPIAR LISTA =====================
 buttonCopiar.addEventListener("click", function () {
@@ -236,12 +260,6 @@ buttonCopiar.addEventListener("click", function () {
         alert("No hay items para copiar.")
         return
     }
-
-    // // Podés cambiar el formato si querés
-    // // Ejemplo: poner ✓ o ✗ según completado
-    // const texto = listaItems
-    //     .map(item => (item.completado ? "✔ " : "") + item.texto)
-    //     .join("\n")
 
     // ✅ solo los textos, sin símbolos ni ticks
     const texto = listaItems
