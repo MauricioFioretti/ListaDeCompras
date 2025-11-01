@@ -101,9 +101,60 @@ function agregarElementoAlLocalStorage(texto, completado = false) {
     }
 }
 
+// // Función para cargar la lista de elementos desde el almacenamiento local
+// function cargarListaDesdeLocalStorage() {
+//     const listaItems = JSON.parse(localStorage.getItem("listaItems")) || []
+
+//     // limpio primero
+//     seccionItems.innerHTML = ""
+
+//     listaItems.forEach(function (item, index) {
+//         // Crear el contenedor para el tick y el item
+//         const itemContainer = document.createElement("div")
+//         itemContainer.classList.add("item-container")
+
+//         //Primero creo el tick a la izquierda del item
+//         const tick = document.createElement("input")
+//         tick.type = "checkbox"
+//         tick.checked = item.completado
+
+//         // Guardo el estado del tick en el almacenamiento local
+//         tick.addEventListener("change", function () {
+//             item.completado = tick.checked
+//             localStorage.setItem("listaItems", JSON.stringify(listaItems))
+//         })
+
+//         //Luego creo el item a la derecha del tick
+//         const listItem = document.createElement("p")
+//         listItem.innerText = item.texto
+
+//         // Creo el botón de eliminar
+//         const botonEliminarItem = document.createElement("button")
+//         botonEliminarItem.innerText = "Eliminar"
+//         botonEliminarItem.classList.add("eliminar-item")
+//         botonEliminarItem.setAttribute("data-index", index)
+
+//         // Agrego el tick, el item y el boton eliminar de cada item a un contenedor
+//         itemContainer.appendChild(tick)
+//         itemContainer.appendChild(listItem)
+//         itemContainer.appendChild(botonEliminarItem)
+
+//         // Agrego el contenedor a la sección de items
+//         seccionItems.appendChild(itemContainer)
+//     })
+// }
+
 // Función para cargar la lista de elementos desde el almacenamiento local
 function cargarListaDesdeLocalStorage() {
-    const listaItems = JSON.parse(localStorage.getItem("listaItems")) || []
+    let listaItems = JSON.parse(localStorage.getItem("listaItems")) || []
+
+    // ✅ Ordenar: primero los completados (true) al inicio
+    listaItems.sort((a, b) => {
+        if (a.completado === b.completado) {
+            return a.texto.toLowerCase().localeCompare(b.texto.toLowerCase())
+        }
+        return b.completado - a.completado
+    })
 
     // limpio primero
     seccionItems.innerHTML = ""
@@ -113,36 +164,32 @@ function cargarListaDesdeLocalStorage() {
         const itemContainer = document.createElement("div")
         itemContainer.classList.add("item-container")
 
-        //Primero creo el tick a la izquierda del item
         const tick = document.createElement("input")
         tick.type = "checkbox"
         tick.checked = item.completado
 
-        // Guardo el estado del tick en el almacenamiento local
         tick.addEventListener("change", function () {
             item.completado = tick.checked
             localStorage.setItem("listaItems", JSON.stringify(listaItems))
+            cargarListaDesdeLocalStorage() // 🔄 refrescar orden
         })
 
-        //Luego creo el item a la derecha del tick
         const listItem = document.createElement("p")
         listItem.innerText = item.texto
 
-        // Creo el botón de eliminar
         const botonEliminarItem = document.createElement("button")
         botonEliminarItem.innerText = "Eliminar"
         botonEliminarItem.classList.add("eliminar-item")
         botonEliminarItem.setAttribute("data-index", index)
 
-        // Agrego el tick, el item y el boton eliminar de cada item a un contenedor
         itemContainer.appendChild(tick)
         itemContainer.appendChild(listItem)
         itemContainer.appendChild(botonEliminarItem)
 
-        // Agrego el contenedor a la sección de items
         seccionItems.appendChild(itemContainer)
     })
 }
+
 
 // Evento de click para eliminar un elemento individual
 seccionItems.addEventListener("click", function (event) {
@@ -236,3 +283,6 @@ buttonImportar.addEventListener("click", function () {
 
 // Cargo la lista al cargar la página
 window.addEventListener("load", cargarListaDesdeLocalStorage)
+
+
+cargarListaDesdeLocalStorage
