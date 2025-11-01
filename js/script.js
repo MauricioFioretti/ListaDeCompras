@@ -237,10 +237,15 @@ buttonCopiar.addEventListener("click", function () {
         return
     }
 
-    // Podés cambiar el formato si querés
-    // Ejemplo: poner ✓ o ✗ según completado
+    // // Podés cambiar el formato si querés
+    // // Ejemplo: poner ✓ o ✗ según completado
+    // const texto = listaItems
+    //     .map(item => (item.completado ? "✔ " : "") + item.texto)
+    //     .join("\n")
+
+    // ✅ solo los textos, sin símbolos ni ticks
     const texto = listaItems
-        .map(item => (item.completado ? "✔ " : "") + item.texto)
+        .map(item => item.texto)
         .join("\n")
 
     navigator.clipboard.writeText(texto)
